@@ -20,3 +20,11 @@ if __name__ == "__main__":
 
 
 
+def yakit_ekle(miktar, depo=None):
+    if depo is None:
+        depo = []
+    depo.append(miktar)
+    return depo
+
+print(yakit_ekle(10))
+print(yakit_ekle(20))
