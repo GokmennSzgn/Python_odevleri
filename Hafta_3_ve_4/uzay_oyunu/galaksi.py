@@ -1,5 +1,6 @@
 import json
 import os
+import time
 
 def galaksi_kur(gezegenler, baglantilar, baslangic, **kwargs):
     if baslangic not in gezegenler:
@@ -30,8 +31,6 @@ def en_bagli_gezegenler(galaksi):
     return siralama
 
 
-import time
-
 def sure_olc(fonksiyon):
     def sarmalayici(*args, **kwargs):
         baslangic_zamani = time.time()  
@@ -50,7 +49,7 @@ if __name__ == "__main__":
     for _ in range(13):
         toplam_hamle = hamle_al()
 
-    #galaksi.json dosyasının dizinini bulan satır
+    
     dosya_dizini = os.path.dirname(os.path.abspath(__file__))
     dosya_yolu = os.path.join(dosya_dizini, "galaksi.json")
 
@@ -61,7 +60,7 @@ if __name__ == "__main__":
     en_bagli_gezegenler = sure_olc(en_bagli_gezegenler)
     sirali_gezegenler = en_bagli_gezegenler(g)
 
-    print(g["baslangic"], g["yakit"])
+    print("Başlangıç konumu: ",g["baslangic"], "Yakıt: ",g["yakit"])
     print(f"Oyunu {toplam_hamle} hamlede bitirdin!")
     print(sirali_gezegenler)
 

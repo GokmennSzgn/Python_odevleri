@@ -1,0 +1,13 @@
+{
+    "gezegenler": ["dünya", "mars", "jüpiter"],
+    "baglantilar": {
+        "dünya": ["mars","sirius", "orion","jüpiter"],
+        "sirius":["orion","kara_delik","centauri"],
+        "orion":["orion","sirius"],
+        "mars": ["dünya", "jüpiter,orion"],
+        "jüpiter": ["mars","dünya","sirius"],
+        "kara_delik": []
+    },
+    "baslangic": "dünya",
+    "yakit": 50
+}
