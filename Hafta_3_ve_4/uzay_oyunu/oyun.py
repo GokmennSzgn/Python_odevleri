@@ -22,4 +22,4 @@ def hedef_menusu(hedefler: list[str]) -> str:
 
 print(envanter_metni(True, False, True))
 print(envanter_metni(False, False, False))
-print(hedef_menusu(["sirius", "centauri",]))
+print(hedef_menusu(["dünya", "mars", "jüpiter","sirius","orion"]))
