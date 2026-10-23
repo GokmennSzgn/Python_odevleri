@@ -1,7 +1,9 @@
 import json
 import os
 import time
+from uzay_oyunu.dekoratorler import log_cagri
 
+@log_cagri
 def galaksi_kur(gezegenler, baglantilar, baslangic, **kwargs):
     if baslangic not in gezegenler:
         raise ValueError("Başlangıç gezegeni gezegenler listesinde bulunamadı!")
