@@ -1,5 +1,5 @@
 {
-    "gezegenler": ["dünya", "mars", "jüpiter","sirius","orion"],
+    "gezegenler": ["dünya", "mars", "jüpiter","sirius","orion","kara_delik"],
     "baglantilar": {
         "dünya": ["mars","sirius", "orion","jüpiter"],
         "sirius":["orion","kara_delik","centauri"],
