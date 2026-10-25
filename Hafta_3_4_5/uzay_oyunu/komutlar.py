@@ -1,6 +1,3 @@
-from typing import Callable, Any
-
-KOMUTLAR: dict[str,tuple[Callable[...,Any],str]] = {}
 
 from typing import Callable, Any
 

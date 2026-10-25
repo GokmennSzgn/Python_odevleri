@@ -3,6 +3,7 @@ import time
 from functools import wraps
 from typing import Callable, Any
 from functools import lru_cache
+import functools
 
 
 # Hafta 5 - Görev 1: Süre ölçen dekoratörümüz
@@ -118,3 +119,69 @@ if __name__ == "__main__":
 
     fib_3(20)
     print(f"@lru_cache üstte, @say altta: {fib_3.__wrapped__.cagri}")
+
+
+
+    def sinirla(alt: int, ust: int) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
+    
+        def dekorator(func: Callable[..., Any]) -> Callable[..., Any]:
+            @wraps(func)
+            def wrapper(*args: Any, **kwargs: Any) -> Any:
+                # Fonksiyona gönderilen ilk argümanı kontrol ediyoruz (*args'ın ilk elemanı)
+                if args:
+                    ilk_arguman = args[0]
+                    
+                    if not (alt <= ilk_arguman <= ust):
+                        raise ValueError(f"{func.__name__}: {ilk_arguman} değeri {alt}-{ust} aralığında değil")
+                
+                return func(*args, **kwargs)
+            
+            return wrapper
+        return dekorator
+
+# --- Yakıt Harca Fonksiyonu ---
+@sinirla(0, 100)
+def yakit_harca(miktar: int) -> int:
+    yakit = (100 - miktar)
+    return f"Yakıt miktarı: {yakit}"  
+
+print("--> yakit_harca(30)")
+print(yakit_harca(30))
+#print("--> yakit_harca(150)")
+#print(yakit_harca(150))
+
+
+
+def hafiza(maxsize: int | None = None) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
+
+    def dekorator(func: Callable[..., Any]) -> Callable[..., Any]:
+        # Önbelleği tutacağımız sözlük (closure içinde saklanır)
+        onbellek: dict[tuple[Any, ...], Any] = {}
+        
+        @wraps(func)
+        def wrapper(*args: Any, **kwargs: Any) -> Any:
+            # Parametreleri anahtar (key) olarak kullanabilmek için tuple yapıyoruz
+            # (kwargs sözlük olduğu için hashlenemez, bu yüzden tuple'a çeviriyoruz)
+            anahtar = args + tuple(sorted(kwargs.items()))
+            
+            # 1. Eğer sonuç önbellekte varsa, doğrudan oradan döndür 
+            if anahtar in onbellek:
+                return onbellek[anahtar]
+            
+            # 2. Sonuç önbellekte yoksa, orijinal fonksiyonu çalıştır ve sonucu al
+            sonuc = func(*args, **kwargs)
+            
+            # 3. maxsize sınırı var mı ve önbellek doldu mu kontrol et
+            if maxsize is not None and len(onbellek) >= maxsize:
+                # Sözlükteki ilk (en eski) anahtarı al ve sil 
+                en_eski_anahtar = next(iter(onbellek))
+                del onbellek[en_eski_anahtar]
+            
+            # 4. Yeni sonucu önbelleğe kaydet
+            onbellek[anahtar] = sonuc
+            return sonuc
+            
+        return wrapper
+    return dekorator
+
+
