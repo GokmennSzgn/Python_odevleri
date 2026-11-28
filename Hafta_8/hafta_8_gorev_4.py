@@ -27,7 +27,7 @@ class Kesir:
         """Kesrin ondalıklı sayı karşılığını döndürür."""
         return self.pay / self.payda
 
-    def __add__(self, diger):
+    def __toplama__(self, diger):
         """İki kesri toplayıp yeni ve sade bir Kesir nesnesi döndürür."""
         if not isinstance(diger, Kesir):
             return NotImplemented
@@ -35,7 +35,7 @@ class Kesir:
         yeni_payda = self.payda * diger.payda
         return Kesir(yeni_pay, yeni_payda)
 
-    def __sub__(self, diger):
+    def __çıkarma__(self, diger):
         """İki kesrin farkını alıp yeni ve sade bir Kesir nesnesi döndürür."""
         if not isinstance(diger, Kesir):
             return NotImplemented
@@ -43,13 +43,13 @@ class Kesir:
         yeni_payda = self.payda * diger.payda
         return Kesir(yeni_pay, yeni_payda)
 
-    def __mul__(self, diger):
+    def __çarpma__(self, diger):
         """İki kesri çarpıp yeni ve sade bir Kesir nesnesi döndürür."""
         if not isinstance(diger, Kesir):
             return NotImplemented
         return Kesir(self.pay * diger.pay, self.payda * diger.payda)
 
-    def __truediv__(self, diger):
+    def __bölme__(self, diger):
         """İki kesri bölüp yeni ve sade bir Kesir nesnesi döndürür."""
         if not isinstance(diger, Kesir):
             return NotImplemented

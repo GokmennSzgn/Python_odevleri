@@ -1,0 +1,82 @@
+# Açıklama: Görev 2 - VKİ Hesaplayıcı
+
+import tkinter as tk
+from tkinter import messagebox
+
+
+class VKI:
+    
+    def __init__(self, kilo, boy_cm):
+        
+        self.kilo = kilo
+        self.boy_cm = boy_cm
+
+    def hesapla(self):
+        
+        boy_m = self.boy_cm / 100
+        return self.kilo / (boy_m * boy_m)
+
+    def durum(self):
+        
+        vki = self.hesapla()
+        if vki < 18.5:
+            return "Zayıf"
+        if vki < 25:
+            return "Normal"
+        if vki < 30:
+            return "Fazla kilolu"
+        return "Obez"
+
+
+class VKIPenceresi:
+
+    def __init__(self):
+        self.p = tk.Tk()
+        self.p.title("VKİ")
+
+        self.kilo_var = tk.DoubleVar(value=70.0)
+        self.boy_var = tk.IntVar(value=175)
+
+        tk.Label(self.p, text="Kilo (kg)").grid(row=0, column=0, padx=6, pady=6)
+        self.kilo_giris = tk.Entry(self.p, textvariable=self.kilo_var, width=10)
+        self.kilo_giris.grid(row=0, column=1, padx=6, pady=6)
+
+        tk.Label(self.p, text="Boy (cm)").grid(row=1, column=0, padx=6, pady=6)
+        tk.Scale(self.p, from_=140, to=210, orient="horizontal", variable=self.boy_var).grid(
+            row=1, column=1, padx=6, pady=6
+        )
+
+        tk.Button(self.p, text="Hesapla", command=self.hesapla).grid(row=2, column=0, columnspan=2, pady=6)
+        self.sonuc = tk.Label(self.p, text="")
+        self.sonuc.grid(row=3, column=0, columnspan=2, pady=6)
+
+    def _renk(self, durum):
+        if durum == "Zayıf":
+            return "blue"
+        if durum == "Normal":
+            return "green"
+        if durum == "Fazla kilolu":
+            return "orange"
+        return "red"
+
+    def hesapla(self):
+        try:
+            kilo = float(self.kilo_giris.get().strip().replace(",", "."))
+            boy = int(self.boy_var.get())
+            if kilo <= 0:
+                raise ValueError
+        except (ValueError, tk.TclError):
+            messagebox.showerror("Hata", "Geçerli bir kilo girin.")
+            return
+
+        model = VKI(kilo, boy)
+        vki = model.hesapla()
+        durum = model.durum()
+        self.sonuc.config(text=f"VKİ: {vki:.2f} · {durum}", fg=self._renk(durum))
+
+    def baslat(self):
+        self.p.mainloop()
+
+
+if __name__ == "__main__":
+    VKIPenceresi().baslat()
